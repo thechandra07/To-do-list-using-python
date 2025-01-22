@@ -1,0 +1,76 @@
+def show_menu():
+    print("\nTo-Do List Menu:")
+    print("1. View Tasks")
+    print("2. Add Task")
+    print("3. Mark Task as Completed")
+    print("4. Delete Task")
+    print("5. Exit")
+
+def view_tasks(tasks):
+    if not tasks:
+        print("No tasks available.")
+    else:
+        print("\nYour Tasks:")
+        for idx, task in enumerate(tasks, start=1):
+            status = "✓" if task['completed'] else "✗"
+            print(f"{idx}. {task['task']} [{status}]")
+
+def add_task(tasks):
+    task = input("\nEnter the task: ")
+    tasks.append({"task": task, "completed": False})
+    print(f"Task '{task}' added!")
+
+def mark_task_completed(tasks):
+    if not tasks:
+        print("No tasks available to mark as completed.")
+        return
+    view_tasks(tasks)
+    try:
+        task_num = int(input("\nEnter the task number to mark as completed: "))
+        tasks[task_num - 1]['completed'] = True
+        print(f"Task {task_num} marked as completed!")
+    except (IndexError, ValueError):
+        print("Invalid task number! Please try again.")
+
+def delete_task(tasks):
+    if not tasks:
+        print("No tasks available to delete.")
+        return
+    view_tasks(tasks)
+    try:
+        task_num = int(input("\nEnter the task number to delete: "))
+        removed_task = tasks.pop(task_num - 1)
+        print(f"Task '{removed_task['task']}' deleted!")
+    except (IndexError, ValueError):
+        print("Invalid task number! Please try again.")
+
+def main():
+    tasks = [
+        {"task": "Buy groceries (milk, eggs, bread)", "completed": False},
+        {"task": "Take the dog for a walk", "completed": False},
+        {"task": "Call the plumber for the leaky faucet", "completed": False},
+        {"task": "Prepare lunch", "completed": False},
+        {"task": "Read a book for 30 minutes", "completed": False},
+    ]  # Preloaded tasks to simulate a daily to-do list
+    
+    print("Welcome to the Daily Life To-Do List Application!")
+    
+    while True:
+        show_menu()
+        choice = input("\nChoose an option (1-5): ")
+        if choice == '1':
+            view_tasks(tasks)
+        elif choice == '2':
+            add_task(tasks)
+        elif choice == '3':
+            mark_task_completed(tasks)
+        elif choice == '4':
+            delete_task(tasks)
+        elif choice == '5':
+            print("\nThank you for using the To-Do List Application. Have a productive day!")
+            break
+        else:
+            print("Invalid choice! Please enter a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
